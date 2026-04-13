@@ -11,6 +11,7 @@
     },
     "require": {
         "php": ">=8.4",
+        "scafera/database": "^1.0",
         "scafera/frontend": "^1.0",
         "scafera/layered": "^1.0",
         "scafera/scaffold": "^1.0"
