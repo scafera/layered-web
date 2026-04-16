@@ -44,5 +44,12 @@
             "scafera/scaffold": true,
             "symfony/runtime": true
         }
+    },
+    "extra": {
+        "scafera-scaffold": {
+            "file-mapping": {
+                "config/config.example.yaml": false
+            }
+        }
     }
 }
