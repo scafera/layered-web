@@ -184,6 +184,29 @@ docker compose exec php vendor/bin/scafera db:migrate:diff    # generate migrati
 
 ---
 
+## Friction log
+
+If you hit a contradiction in this doc, made a wrong assumption that took multiple attempts to recover from, or got stuck on a Scafera concept — append an entry to `var/friction.md` (gitignored). This is a feedback channel for Scafera maintainers and the developer who ran you.
+
+**Log only when:** a Scafera convention surprised you, a needed command/import/path wasn't discoverable from this doc, or a boundary rule blocked something that felt legitimate. Skip if the work went smoothly — silence means no friction.
+
+**Format per entry:**
+
+```
+## YYYY-MM-DD HH:MM — short title
+
+**Scope:** <e.g. scafera/auth, scafera/layered, framework, docs, business>
+
+**What I tried:** ...
+**What broke or surprised me:** ...
+**What worked (or that I gave up):** ...
+--
+```
+
+Be specific and critical. Vague positivity is not useful.
+
+---
+
 ## Agent discipline
 
 - Only change what the task requires. Do not refactor, rename, or "improve" untouched code.
