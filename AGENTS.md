@@ -122,6 +122,17 @@ composer search scafera/            # list available Scafera packages with descr
 composer show -a scafera/<name>     # details for one package
 ```
 
+**Styling — Tailwind CSS (recommended frontend theme).** Scafera encourages Tailwind, paired with `scafera/asset`. The bundle auto-registers via Scafera's companion-bundle mechanism — no manual bundle wiring.
+
+```bash
+composer require scafera/asset symfonycasts/tailwind-bundle
+vendor/bin/scafera symfony tailwind:init              # scaffold tailwind.config.js + source CSS
+vendor/bin/scafera symfony tailwind:build --watch     # dev: rebuild on change
+vendor/bin/scafera symfony tailwind:build --minify    # production build
+```
+
+After `tailwind:init`, adjust the generated `tailwind.config.js` `content:` paths to match Scafera's layout (`resources/templates/`, `resources/assets/`) — the bundle's defaults point at `./templates/` and `./assets/`.
+
 ---
 
 ## Allowed Scafera imports
