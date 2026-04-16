@@ -180,7 +180,7 @@ docker compose exec php vendor/bin/scafera db:migrate
 docker compose exec php vendor/bin/scafera db:migrate:diff    # generate migration from entities
 ```
 
-**Always run `vendor/bin/scafera validate` before declaring work done.** It catches structural and boundary violations the human shouldn't have to.
+**Always run `vendor/bin/scafera validate --strict` before declaring work done or committing.** It catches structural and boundary violations the human shouldn't have to. The `--strict` flag bypasses project and architecture ignore lists so nothing slips through pre-commit.
 
 ---
 
