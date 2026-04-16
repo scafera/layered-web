@@ -207,6 +207,12 @@ Be specific and critical. Vague positivity is not useful.
 
 ---
 
+## References
+
+- **<https://scafera.github.io/llms.txt>** — agent-facing index of Scafera framework docs. Fetch when you need framework-wide reference (current packages, cross-package conventions, release notes) beyond what this project's AGENTS.md covers. Requires network access; this doc remains self-sufficient if unreachable.
+
+---
+
 ## Agent discipline
 
 - Only change what the task requires. Do not refactor, rename, or "improve" untouched code.
