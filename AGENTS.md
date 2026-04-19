@@ -18,6 +18,7 @@ This project uses the **Scafera framework** with the **layered architecture** pa
 - **Never** import framework engines (`Symfony\…`, `Doctrine\…`, `Twig\…`) in userland — use the Scafera API only. Doctrine is allowed **only** in `src/Repository/`. Symfony Form is allowed **only** in `src/Form/`.
 - All services are autowired via constructor injection — no service locators, no manual wiring
 - Adding a controller or command without a matching test is a violation
+- **Never stub tests** with `markTestIncomplete()`, `assertTrue(true)`, or empty test bodies to pass validation. An honest `scafera validate` failure is better than a fake pass. If pressed for time, leave the test unwritten — the test parity validator will flag it clearly.
 - **Before implementing any common feature** (translation, authentication, forms, file uploads, asset pipelines, external API calls, logging), check the opt-in capabilities table below and fetch <https://scafera.github.io/llms.txt> to verify whether Scafera already provides a package. Never create custom implementations for features that Scafera packages cover.
 
 ---
