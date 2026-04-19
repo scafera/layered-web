@@ -18,6 +18,7 @@ This project uses the **Scafera framework** with the **layered architecture** pa
 - **Never** import framework engines (`Symfony\…`, `Doctrine\…`, `Twig\…`) in userland — use the Scafera API only. Doctrine is allowed **only** in `src/Repository/`. Symfony Form is allowed **only** in `src/Form/`.
 - All services are autowired via constructor injection — no service locators, no manual wiring
 - Adding a controller or command without a matching test is a violation
+- **Before implementing any common feature** (translation, authentication, forms, file uploads, asset pipelines, external API calls, logging), check the opt-in capabilities table below and fetch <https://scafera.github.io/llms.txt> to verify whether Scafera already provides a package. Never create custom implementations for features that Scafera packages cover.
 
 ---
 
@@ -105,6 +106,8 @@ final class Show
 ## Opt-in capabilities — install before importing
 
 Not bundled — install with `composer require scafera/<name>` before reaching for third-party alternatives. Each package enforces Scafera boundaries.
+
+**IMPORTANT:** If your task involves any of the capabilities below, you MUST use the corresponding Scafera package. Do not create custom implementations (e.g., a `Language.php` for i18n — use `scafera/translate`). When in doubt, fetch <https://scafera.github.io/llms.txt> for the full capabilities list and usage patterns.
 
 | Package             | Install when you need              |
 |---------------------|------------------------------------|
@@ -220,7 +223,7 @@ Be specific and critical. Vague positivity is not useful.
 
 ## References
 
-- **<https://scafera.github.io/llms.txt>** — agent-facing index of Scafera framework docs. Fetch when you need framework-wide reference (current packages, cross-package conventions, release notes) beyond what this project's AGENTS.md covers. Requires network access; this doc remains self-sufficient if unreachable.
+- **<https://scafera.github.io/llms.txt>** — agent-facing index of Scafera framework docs. **Fetch this before implementing any feature that might already exist as a Scafera package.** Contains current packages, cross-package conventions, and full usage examples. Requires network access; this doc remains self-sufficient if unreachable.
 
 ---
 
