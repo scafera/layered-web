@@ -169,7 +169,7 @@ All config in `config/config.yaml`:
 env:                          # varies per environment (secrets, credentials, URLs)
     APP_DEBUG: '1'
     APP_SECRET: 's3cret-for-dev'
-    DATABASE_URL: 'mysql://user:pass@host:3306/db'
+    DATABASE_URL: 'mysql://user:pass@database:3306/db'   # use Docker service name, not localhost
 
 parameters:                   # app constants (don't vary per env)
     app.items_per_page: 25
@@ -187,12 +187,12 @@ Real secrets go in `config/config.local.yaml` (gitignored). OS environment varia
 All via the container if Docker is used:
 
 ```bash
-docker compose exec php composer install
-docker compose exec php vendor/bin/scafera validate           # structural / boundary checks
-docker compose exec php vendor/bin/scafera info:paths         # discover storage/assets/translations paths
-docker compose exec php vendor/bin/phpunit -c tests/phpunit.dist.xml
-docker compose exec php vendor/bin/scafera db:migrate
-docker compose exec php vendor/bin/scafera db:migrate:diff    # generate migration from entities
+docker compose exec app composer install
+docker compose exec app vendor/bin/scafera validate           # structural / boundary checks
+docker compose exec app vendor/bin/scafera info:paths         # discover storage/assets/translations paths
+docker compose exec app vendor/bin/phpunit -c tests/phpunit.dist.xml
+docker compose exec app vendor/bin/scafera db:migrate
+docker compose exec app vendor/bin/scafera db:migrate:diff    # generate migration from entities
 ```
 
 **Always run `vendor/bin/scafera validate --strict` before declaring work done or committing.** It catches structural and boundary violations the human shouldn't have to. The `--strict` flag bypasses project and architecture ignore lists so nothing slips through pre-commit.
@@ -225,6 +225,29 @@ Be specific and critical. Vague positivity is not useful.
 ## References
 
 - **<https://scafera.github.io/llms.txt>** — agent-facing index of Scafera framework docs. **Fetch this before implementing any feature that might already exist as a Scafera package.** Contains current packages, cross-package conventions, and full usage examples. Requires network access; this doc remains self-sufficient if unreachable.
+
+---
+
+## When you hit an error
+
+Do not guess based on Symfony defaults. Scafera wraps Symfony — its conventions override Symfony's.
+
+1. Run `scafera validate --strict` — it catches most structural and boundary violations with clear messages
+2. Read the actual error in `var/log/` — don't infer from symptoms
+3. Re-read this file and fetch <https://scafera.github.io/llms.txt> before assuming how something works
+4. **Never propose large refactors based on a debugging hunch** — verify the convention first. If a structure looks wrong, it's more likely your assumption is wrong than the project structure.
+
+---
+
+## Common mistakes — don't make these
+
+These are patterns that agents repeatedly get wrong because of Symfony muscle memory:
+
+- **Controllers use domain subdirectories**, not flat files. `Controller/Admin/Products/Index.php` is correct — do not flatten to `Controller/AdminProducts.php`. This IS the Scafera pattern, not a bug.
+- **No `.env` files** — Scafera does not use dotenv. All environment config goes in `config/config.yaml` under `env:`. If you create a `.env` file, delete it.
+- **No raw Doctrine** outside `src/Repository/` — no `EntityManager`, `QueryBuilder`, or `$em->flush()`. Use `EntityStore` and `Transaction`. The `DoctrineBoundaryPass` will block this at compile time.
+- **DATABASE_URL in Docker** must point to the Docker service name (e.g., `database`), not `localhost`. Check `docker-compose.yml` for the service name.
+- **Scafera packages are configured via `parameters:`** in `config/config.yaml`, not via extension config keys like `scafera_translate:`. See the Configuration section above.
 
 ---
 
